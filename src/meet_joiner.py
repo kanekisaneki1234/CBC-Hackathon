@@ -29,10 +29,10 @@ class MeetJoiner:
         self.browser = await self.playwright.chromium.launch(
             headless=False,  # Run in headed mode to see the meeting
             args=[
-                "--use-fake-ui-for-media-stream",  # Auto-grant media permissions
-                "--use-fake-device-for-media-stream",  # Use fake audio device
                 "--disable-blink-features=AutomationControlled",
                 "--no-sandbox",
+                "--enable-usermedia-screen-capturing",  # Enable screen/audio capture
+                "--auto-select-desktop-capture-source=Entire screen",  # Auto-select capture source
             ],
         )
 
