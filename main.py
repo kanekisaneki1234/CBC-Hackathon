@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI interface for Zoom Meeting Assistant
+CLI interface for Google Meet Assistant
 """
 import asyncio
 import argparse
@@ -44,7 +44,7 @@ def print_banner():
         """
 ╔═══════════════════════════════════════════════════════╗
 ║                                                       ║
-║        🎙️  ZOOM MEETING ASSISTANT  🎙️                ║
+║      🎙️  GOOGLE MEET ASSISTANT  🎙️                   ║
 ║                                                       ║
 ║     Real-time Transcription + AI Summaries           ║
 ║                                                       ║
@@ -214,9 +214,9 @@ Press Ctrl+C to stop the meeting and export results
 
 def main():
     """Main entry point"""
-    parser = argparse.ArgumentParser(description="Zoom Meeting Assistant - Automated transcription and AI summaries")
+    parser = argparse.ArgumentParser(description="Google Meet Assistant - Automated transcription and AI summaries")
 
-    parser.add_argument("meeting_url", nargs="?", help="Zoom meeting URL")
+    parser.add_argument("meeting_url", nargs="?", help="Google Meet URL")
     parser.add_argument("-p", "--password", help="Meeting password")
     parser.add_argument("-d", "--device", type=int, help="Audio device ID (use --list-devices to see options)")
     parser.add_argument("-f", "--format", choices=["markdown", "json", "text"], default="markdown", help="Export format")
@@ -242,7 +242,7 @@ def main():
     if not args.meeting_url:
         parser.print_help()
         print(
-            "\n❌ Error: Meeting URL is required\n\nExample:\n  python main.py https://zoom.us/j/123456789 -p mypassword\n"
+            "\n❌ Error: Meeting URL is required\n\nExample:\n  python main.py https://meet.google.com/abc-defg-hij\n"
         )
         sys.exit(1)
 

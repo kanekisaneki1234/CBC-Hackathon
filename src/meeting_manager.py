@@ -5,7 +5,7 @@ import asyncio
 import logging
 from typing import Optional, Callable, Dict, Any
 from datetime import datetime, timedelta
-from .zoom_joiner import ZoomJoiner
+from .meet_joiner import MeetJoiner
 from .audio_capture import AudioCapturer
 from .transcription import TranscriptionManager
 from .summarizer import MeetingSummarizer
@@ -16,10 +16,10 @@ logger = logging.getLogger(__name__)
 
 class MeetingAssistant:
     """
-    Main orchestrator for the Zoom Meeting Assistant
+    Main orchestrator for the Google Meet Assistant
 
     Coordinates:
-    - Joining Zoom meetings
+    - Joining Google Meet meetings
     - Capturing audio
     - Real-time transcription
     - Periodic AI summaries
@@ -44,7 +44,7 @@ class MeetingAssistant:
         self.on_status_change = on_status_change
 
         # Components
-        self.zoom_joiner: Optional[ZoomJoiner] = None
+        self.meet_joiner: Optional[MeetJoiner] = None
         self.audio_capturer: Optional[AudioCapturer] = None
         self.transcription_manager: Optional[TranscriptionManager] = None
         self.summarizer: Optional[MeetingSummarizer] = None
@@ -89,10 +89,10 @@ class MeetingAssistant:
             self._update_status("initializing", "Setting up AI summarizer...")
             self.summarizer = MeetingSummarizer(on_summary=self._handle_summary)
 
-            # Initialize Zoom joiner
-            self._update_status("initializing", "Setting up Zoom integration...")
-            self.zoom_joiner = ZoomJoiner()
-            await self.zoom_joiner.initialize()
+            # Initialize Google Meet joiner
+            self._update_status("initializing", "Setting up Google Meet integration...")
+            self.meet_joiner = MeetJoiner()
+            await self.meet_joiner.initialize()
 
             # Initialize audio capturer
             self._update_status("initializing", "Setting up audio capture...")
@@ -113,8 +113,8 @@ class MeetingAssistant:
         Join meeting and start transcription
 
         Args:
-            meeting_url: Zoom meeting URL
-            password: Optional meeting password
+            meeting_url: Google Meet meeting URL
+            password: Optional meeting password (not used for Google Meet)
             audio_device_id: Optional specific audio device to use
         """
         if self.is_running:
@@ -122,10 +122,10 @@ class MeetingAssistant:
             return
 
         try:
-            self._update_status("joining", "Joining Zoom meeting...")
+            self._update_status("joining", "Joining Google Meet meeting...")
 
-            # Join Zoom meeting
-            success = await self.zoom_joiner.join_meeting(meeting_url, password)
+            # Join Google Meet meeting
+            success = await self.meet_joiner.join_meeting(meeting_url, password)
 
             if not success:
                 self._update_status("error", "Failed to join meeting")
@@ -274,9 +274,9 @@ class MeetingAssistant:
             if self.transcription_manager:
                 await self.transcription_manager.stop()
 
-            # Leave Zoom meeting
-            if self.zoom_joiner:
-                await self.zoom_joiner.leave_meeting()
+            # Leave Google Meet meeting
+            if self.meet_joiner:
+                await self.meet_joiner.leave_meeting()
 
             self._update_status("stopped", "Meeting ended")
             logger.info("Meeting stopped successfully")
@@ -295,8 +295,8 @@ class MeetingAssistant:
                 await self.stop_meeting()
 
             # Close browser
-            if self.zoom_joiner:
-                await self.zoom_joiner.close()
+            if self.meet_joiner:
+                await self.meet_joiner.close()
 
             self._update_status("closed", "All resources cleaned up")
             logger.info("Cleanup completed")
