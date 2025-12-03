@@ -1,0 +1,24 @@
+# Core dependencies
+streamlit>=1.31.0
+python-dotenv>=1.0.0
+
+# Zoom automation
+playwright>=1.41.0
+
+# Audio capture and processing
+sounddevice>=0.4.6
+numpy>=1.24.0
+scipy>=1.11.0
+pyaudio>=0.2.14
+
+# Transcription services
+assemblyai>=0.17.0
+deepgram-sdk>=3.0.0
+
+# AI/LLM
+anthropic>=0.18.0
+
+# Utilities
+aiohttp>=3.9.0
+websockets>=12.0
+requests>=2.31.0
