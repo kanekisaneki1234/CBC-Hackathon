@@ -24,8 +24,8 @@ class Config:
     SUMMARY_INTERVAL_MINUTES = int(os.getenv("SUMMARY_INTERVAL_MINUTES", "5"))
     CLAUDE_MODEL = os.getenv("CLAUDE_MODEL", "claude-sonnet-4-20250514")
 
-    # Zoom settings
-    ZOOM_DISPLAY_NAME = os.getenv("ZOOM_DISPLAY_NAME", "Meeting Assistant Bot")
+    # Google Meet settings
+    MEET_DISPLAY_NAME = os.getenv("MEET_DISPLAY_NAME", "Meeting Assistant Bot")
 
     # Directories
     BASE_DIR = Path(__file__).parent.parent

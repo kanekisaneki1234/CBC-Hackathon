@@ -1,10 +1,11 @@
-# 🎙️ Zoom Meeting Assistant
+# 🎙️ Google Meet Assistant
 
-A lightweight, AI-powered application that automatically joins Zoom meetings, transcribes them in real-time, and generates AI summaries every 5 minutes using Claude.
+A lightweight, AI-powered application that automatically joins Google Meet meetings, transcribes them in real-time, and generates AI summaries every 5 minutes using Claude.
 
 ## ✨ Features
 
-- **🚪 Automatic Zoom Joining**: Join meetings via browser automation (Playwright)
+- **🚪 Automatic Google Meet Joining**: Join meetings via browser automation (Playwright) - no app required
+- **👤 Guest Access**: Join meetings as a guest without a Google account
 - **🎤 Real-time Transcription**: Continuous speech-to-text using AssemblyAI or Deepgram
 - **🤖 AI-Powered Summaries**: Generate structured summaries every 5 minutes with Claude
 - **📊 Speaker Diarization**: Identify different speakers (service dependent)
@@ -16,7 +17,7 @@ A lightweight, AI-powered application that automatically joins Zoom meetings, tr
 
 ```
 ┌─────────────────┐
-│   Zoom Meeting  │
+│ Google Meet Web │
 └────────┬────────┘
          │ Audio
          ▼
@@ -56,8 +57,8 @@ A lightweight, AI-powered application that automatically joins Zoom meetings, tr
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/zoom-meeting-assistant.git
-cd zoom-meeting-assistant
+git clone https://github.com/yourusername/google-meet-assistant.git
+cd google-meet-assistant
 ```
 
 ### 2. Install Dependencies
@@ -103,7 +104,7 @@ CLAUDE_MODEL=claude-sonnet-4-20250514
 
 ### 4. Set Up Audio Routing
 
-⚠️ **CRITICAL**: You must route Zoom's audio to the application. See [Audio Setup](#-audio-setup) below.
+⚠️ **CRITICAL**: You must route Google Meet's audio to the application. See [Audio Setup](#-audio-setup) below.
 
 ### 5. Run the Application
 
@@ -118,12 +119,12 @@ Then open your browser to `http://localhost:8501`
 **Option B: Command Line**
 
 ```bash
-python main.py "https://zoom.us/j/123456789" -p meeting_password
+python main.py "https://meet.google.com/abc-defg-hij"
 ```
 
 ## 🔊 Audio Setup
 
-The application needs to capture audio from Zoom. This requires virtual audio routing:
+The application needs to capture audio from Google Meet. This requires virtual audio routing:
 
 ### Linux (PulseAudio/PipeWire)
 
@@ -131,7 +132,7 @@ The application needs to capture audio from Zoom. This requires virtual audio ro
 # Load loopback module
 pactl load-module module-loopback latency_msec=1
 
-# In Zoom: Set output to the loopback
+# In Google Meet: Set output to the loopback
 # In this app: Set input to the loopback monitor
 
 # To unload later:
@@ -148,7 +149,7 @@ brew install blackhole-2ch
 # 2. Create "Multi-Output Device":
 #    - Add your speakers/headphones
 #    - Add BlackHole 2ch
-# 3. Set Zoom audio output to Multi-Output Device
+# 3. Set Google Meet audio output to Multi-Output Device
 # 4. Set this app to record from BlackHole 2ch
 ```
 
@@ -156,7 +157,7 @@ brew install blackhole-2ch
 
 ```
 1. Install VB-Cable or Virtual Audio Cable
-2. Set Zoom audio output to Virtual Cable
+2. Set Google Meet audio output to Virtual Cable
 3. Set this app to record from Virtual Cable
 4. (Optional) Enable "Listen to this device" in Windows sound settings to hear audio
 ```
@@ -176,8 +177,8 @@ python -c "from src.audio_capture import list_audio_devices; list_audio_devices(
 ### Streamlit UI
 
 1. **Initialize**: Click "🚀 Initialize" button
-2. **Enter Meeting URL**: Paste your Zoom meeting link
-3. **Optional**: Enter password if required
+2. **Enter Meeting URL**: Paste your Google Meet link
+3. **Optional**: Password field available but typically not needed for Google Meet
 4. **Start**: Click "▶️ Start Meeting"
 5. **Monitor**: Watch live transcripts and summaries appear
 6. **Export**: Click export buttons to save results
@@ -188,25 +189,25 @@ python -c "from src.audio_capture import list_audio_devices; list_audio_devices(
 **Basic usage:**
 
 ```bash
-python main.py "https://zoom.us/j/123456789"
+python main.py "https://meet.google.com/abc-defg-hij"
 ```
 
-**With password:**
+**With password (optional):**
 
 ```bash
-python main.py "https://zoom.us/j/123456789" -p mypassword
+python main.py "https://meet.google.com/abc-defg-hij" -p mypassword
 ```
 
 **Specify audio device:**
 
 ```bash
-python main.py "https://zoom.us/j/123456789" -d 5
+python main.py "https://meet.google.com/abc-defg-hij" -d 5
 ```
 
 **Change export format:**
 
 ```bash
-python main.py "https://zoom.us/j/123456789" -f json
+python main.py "https://meet.google.com/abc-defg-hij" -f json
 ```
 
 **Get help:**
@@ -224,7 +225,7 @@ Edit `.env` to customize:
 | `TRANSCRIPTION_SERVICE`   | Which service to use                     | `assemblyai`            |
 | `SUMMARY_INTERVAL_MINUTES`| How often to generate summaries          | `5`                     |
 | `CLAUDE_MODEL`            | Claude model to use                      | `claude-sonnet-4-20250514` |
-| `ZOOM_DISPLAY_NAME`       | Your name in the Zoom meeting            | `Meeting Assistant Bot` |
+| `MEET_DISPLAY_NAME`       | Your name in the Google Meet meeting     | `Meeting Assistant Bot` |
 | `ASSEMBLYAI_API_KEY`      | Your AssemblyAI API key                  | -                       |
 | `DEEPGRAM_API_KEY`        | Your Deepgram API key                    | -                       |
 | `ANTHROPIC_API_KEY`       | Your Anthropic/Claude API key            | -                       |
@@ -232,11 +233,11 @@ Edit `.env` to customize:
 ## 📁 Project Structure
 
 ```
-zoom-meeting-assistant/
+google-meet-assistant/
 ├── src/
 │   ├── __init__.py
 │   ├── config.py              # Configuration management
-│   ├── zoom_joiner.py         # Playwright automation for Zoom
+│   ├── meet_joiner.py         # Playwright automation for Google Meet
 │   ├── audio_capture.py       # Audio capture from system
 │   ├── transcription.py       # Real-time transcription services
 │   ├── summarizer.py          # Claude AI summarization
@@ -301,8 +302,9 @@ zoom-meeting-assistant/
 
 ### "Failed to join meeting"
 
-- **Check URL**: Ensure the Zoom URL is valid
-- **Password**: Make sure the password is correct if required
+- **Check URL**: Ensure the Google Meet URL is valid (format: https://meet.google.com/xxx-yyyy-zzz)
+- **Guest Access**: The app joins as a guest - ensure the meeting allows guest participants
+- **Host Approval**: Some meetings require host approval - the app will wait up to 60 seconds
 - **Browser**: The Playwright browser should open automatically - if not, check your display settings
 
 ### "No audio being captured"
@@ -341,6 +343,7 @@ playwright install chromium
 - **Audio**: Audio is streamed to transcription APIs - check their privacy policies
 - **Exports**: Saved locally in `exports/` directory
 - **Bot Presence**: Other meeting participants will see "Meeting Assistant Bot" (or your configured name)
+- **Guest Access**: The app joins as a guest without requiring a Google account
 
 ## ⚡ Performance Tips
 
@@ -368,12 +371,13 @@ flake8 src/ app.py main.py
 ## 📝 Roadmap
 
 - [ ] Add unit tests
-- [ ] Support for other meeting platforms (Google Meet, Teams)
+- [ ] Support for other meeting platforms (Zoom, Teams)
 - [ ] Local Whisper option (offline transcription)
 - [ ] Real-time translation
 - [ ] Meeting action item extraction
 - [ ] Calendar integration
 - [ ] Post-meeting email summaries
+- [ ] Google account authentication (alternative to guest join)
 
 ## 🤝 Contributing
 
@@ -399,8 +403,8 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/zoom-meeting-assistant/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/zoom-meeting-assistant/discussions)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/google-meet-assistant/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/google-meet-assistant/discussions)
 
 ## ⚠️ Disclaimer
 

@@ -1,5 +1,5 @@
 """
-Streamlit UI for Zoom Meeting Assistant
+Streamlit UI for Google Meet Assistant
 """
 import asyncio
 import streamlit as st
@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 
 # Page config
-st.set_page_config(page_title="Zoom Meeting Assistant", page_icon="🎙️", layout="wide", initial_sidebar_state="expanded")
+st.set_page_config(page_title="Google Meet Assistant", page_icon="🎙️", layout="wide", initial_sidebar_state="expanded")
 
 # Custom CSS
 st.markdown(
@@ -130,8 +130,8 @@ async def stop_meeting():
 
 
 # Main UI
-st.title("🎙️ Zoom Meeting Assistant")
-st.markdown("Automatically transcribe and summarize your Zoom meetings in real-time")
+st.title("🎙️ Google Meet Assistant")
+st.markdown("Automatically transcribe and summarize your Google Meet meetings in real-time")
 
 # Sidebar
 with st.sidebar:
@@ -212,11 +212,11 @@ col1, col2 = st.columns([3, 1])
 
 with col1:
     meeting_url = st.text_input(
-        "Zoom Meeting URL", placeholder="https://zoom.us/j/123456789", help="Paste your Zoom meeting link here"
+        "Google Meet URL", placeholder="https://meet.google.com/xxx-yyyy-zzz", help="Paste your Google Meet link here"
     )
 
     meeting_password = st.text_input(
-        "Meeting Password (optional)", type="password", help="Enter if the meeting requires a password"
+        "Meeting Password (optional)", type="password", help="Not typically needed for Google Meet"
     )
 
 with col2:
@@ -359,7 +359,7 @@ st.markdown("---")
 st.markdown(
     """
 <div style='text-align: center; color: #666;'>
-    <p>Zoom Meeting Assistant v1.0 | Powered by AssemblyAI/Deepgram + Claude AI</p>
+    <p>Google Meet Assistant v1.0 | Powered by AssemblyAI/Deepgram + Claude AI</p>
     <p>⚠️ Ensure proper audio routing is set up for best results</p>
 </div>
 """,
